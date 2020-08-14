@@ -18,6 +18,10 @@ def setup_db(app, database_path=database_path):
     db.init_app(app)
     db.create_all()
 
+def db_drop_and_create_all():
+    db.drop_all()
+    db.create_all()
+
 
 class Movie(db.Model):  
 
@@ -28,8 +32,8 @@ class Movie(db.Model):
     def format(self):
         return {
         'id': self.id,
-        'title': self.name,
-        'release_date': self.catchphrase}
+        'title': self.title,
+        'release_date': self.release_date}
     
     def insert(self):
         db.session.add(self)
