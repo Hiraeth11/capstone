@@ -3,6 +3,9 @@ from flask import Flask, request, abort, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 from models import Movie, Actor, setup_db
+from auth import AuthError, requires_auth
+
+
 
 def create_app(test_config=None):
   # create and configure the app
@@ -23,7 +26,8 @@ def create_app(test_config=None):
 
 
     @app.route('/actors')
-    def get_actors():
+    @requires_auth('get:actors')
+    def get_actors(payload):
         '''returns an array of all actors in database'''
         actors = Actor.query.all()
 
@@ -39,7 +43,8 @@ def create_app(test_config=None):
 
 
     @app.route('/movies')
-    def get_movies():
+    @requires_auth('get:movies')
+    def get_movies(payload):
         '''returns an array of all movies in database'''
         movies = Movie.query.all()
 
@@ -55,7 +60,8 @@ def create_app(test_config=None):
 
 
     @app.route('/actors/<actor_id>', methods=['DELETE'])
-    def delete_actor(actor_id):
+    @requires_auth('delete:actors')
+    def delete_actor(payload, actor_id):
         '''deletes the actor with the corrosponding actor id'''
         actor = Actor.query.filter(Actor.id == actor_id).one_or_none()
 
@@ -70,7 +76,8 @@ def create_app(test_config=None):
         })
 
     @app.route('/movies/<movie_id>', methods=['DELETE'])
-    def delete_movie(movie_id):
+    @requires_auth('delete:movies')
+    def delete_movie(payload, movie_id):
         '''deletes the movie with the corrosponding movie id'''
         movie = Movie.query.filter(Movie.id == movie_id).one_or_none()
 
@@ -85,8 +92,9 @@ def create_app(test_config=None):
         })
 
     @app.route('/actors', methods=['POST'])
-    def post_actor():
-
+    @requires_auth('post:actors')
+    def post_actor(payload):
+        '''creates a new actors'''
         body = request.get_json()
 
         new_name = body.get('name', None)
@@ -102,7 +110,9 @@ def create_app(test_config=None):
         })
 
     @app.route('/movies', methods=['POST'])
-    def post_movie():
+    @requires_auth('post:movies')
+    def post_movie(payload):
+        '''creates a new movie'''
         body = request.get_json()
         new_title = body.get('title', None)
         new_release_date = body.get('release_date', None)
@@ -115,8 +125,12 @@ def create_app(test_config=None):
             'new_movie': movie.format()
         })
 
+    
+
     @app.route('/actors/<actor_id>', methods=['PATCH'])
-    def patch_actor(actor_id):
+    @requires_auth('patch:actors')
+    def patch_actor(payload, actor_id):
+        '''updates an actors details'''
         actor = Actor.query.filter(Actor.id == actor_id).one_or_none()
 
         if actor is None:
@@ -143,7 +157,9 @@ def create_app(test_config=None):
         })
 
     @app.route('/movies/<movie_id>', methods=['PATCH'])
-    def patch_movie(movie_id):
+    @requires_auth('patch:movies')
+    def patch_movie(payload, movie_id):
+        '''updates a movies details'''
         movie = Movie.query.filter(Movie.id == movie_id).one_or_none()
 
         if movie is None:
@@ -189,14 +205,26 @@ def create_app(test_config=None):
             'message': "Method Not Allowed"
         }), 405
 
+    @app.errorhandler(AuthError)
+    def authentication_error(error):
+        return jsonify({
+            "success": False,
+            "error": error.status_code,
+            "message": error.error['code']
+            }), 401
+
+
+    @app.errorhandler(500)
+    def not_found(error):
+        return jsonify({
+            'success': False,
+            'error': 500,
+            'message': "Internal Server Error"
+        }), 500
+
     return app
 
 APP = create_app()
-
-
-
-
-
 
 if __name__ == '__main__':
     APP.run(host='0.0.0.0', port=8080, debug=True)

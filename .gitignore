@@ -1,3 +1,5 @@
 .vscode
 setup.sh
 todo.txt
+env
+__pycache__
