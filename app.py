@@ -6,9 +6,8 @@ from models import Movie, Actor, setup_db
 from auth import AuthError, requires_auth
 
 
-
 def create_app(test_config=None):
-  # create and configure the app
+    # create and configure the app
     app = Flask(__name__)
     CORS(app)
     setup_db(app)
@@ -35,7 +34,7 @@ def create_app(test_config=None):
         actors = Actor.query.all()
 
         if len(actors) == 0:
-            abort(404)    
+            abort(404)
 
         formatted_actors = [actor.format() for actor in actors]
 
@@ -44,7 +43,6 @@ def create_app(test_config=None):
             "actors": formatted_actors
         })
 
-
     @app.route('/movies')
     @requires_auth('get:movies')
     def get_movies(payload):
@@ -52,7 +50,7 @@ def create_app(test_config=None):
         movies = Movie.query.all()
 
         if len(movies) == 0:
-            abort(404)    
+            abort(404)
 
         formatted_movies = [movie.format() for movie in movies]
 
@@ -60,7 +58,6 @@ def create_app(test_config=None):
             "success": True,
             "movies": formatted_movies
         })
-
 
     @app.route('/actors/<actor_id>', methods=['DELETE'])
     @requires_auth('delete:actors')
@@ -104,7 +101,7 @@ def create_app(test_config=None):
         new_age = body.get('age', None)
         new_gender = body.get('gender', None)
 
-        actor = Actor(name=new_name,age=new_age, gender=new_gender)
+        actor = Actor(name=new_name, age=new_age, gender=new_gender)
         actor.insert()
 
         return jsonify({
@@ -128,8 +125,6 @@ def create_app(test_config=None):
             'new_movie': movie.format()
         })
 
-    
-
     @app.route('/actors/<actor_id>', methods=['PATCH'])
     @requires_auth('patch:actors')
     def patch_actor(payload, actor_id):
@@ -148,11 +143,10 @@ def create_app(test_config=None):
         if "age" in body:
             age = body.get('age', None)
             actor.age = age
-        
+
         if "gender" in body:
             gender = body.get('gender', None)
             actor.gender = gender
-
 
         return jsonify({
             'success': True,
@@ -173,7 +167,7 @@ def create_app(test_config=None):
         if "title" in body:
             title = body.get('title', None)
             movie.title = title
-        
+
         if "release_date" in body:
             release_date = body.get('release_date', None)
             release_date.title = title
@@ -182,7 +176,6 @@ def create_app(test_config=None):
             'success': True,
             'movie': movie.format()
         })
-
 
     @app.errorhandler(404)
     def not_found(error):
@@ -193,7 +186,7 @@ def create_app(test_config=None):
         }), 404
 
     @app.errorhandler(422)
-    def not_found(error):
+    def unprocessable_entity(error):
         return jsonify({
             'success': False,
             'error': 422,
@@ -201,7 +194,7 @@ def create_app(test_config=None):
         }), 422
 
     @app.errorhandler(405)
-    def not_found(error):
+    def method_not_allowed(error):
         return jsonify({
             'success': False,
             'error': 405,
@@ -214,11 +207,18 @@ def create_app(test_config=None):
             "success": False,
             "error": error.status_code,
             "message": error.error['code']
-            }), 401
+            }), error.status_code
 
+    @app.errorhandler(400)
+    def method_not_allowed(error):
+        return jsonify({
+            'success': False,
+            'error': 400,
+            'message': "Bad Request"
+        }), 400
 
     @app.errorhandler(500)
-    def not_found(error):
+    def server_error(error):
         return jsonify({
             'success': False,
             'error': 500,
@@ -226,6 +226,7 @@ def create_app(test_config=None):
         }), 500
 
     return app
+
 
 app = create_app()
 

@@ -27,16 +27,16 @@ class CapstoneTestCase(unittest.TestCase):
             self.db.create_all()
 
         self.new_actor = Actor(
-            id = 25,
-            name = "test actor",
-            age =  32,
-            gender = "Male"
+            id=25,
+            name="test actor",
+            age=32,
+            gender="Male"
         )
 
         self.new_movie = Movie(
-            id = 25,
-            title = "test movie",
-            release_date = '2020-01-01'
+            id=25,
+            title="test movie",
+            release_date='2020-01-01'
         )
 
         self.new_actor_json = {
@@ -51,50 +51,46 @@ class CapstoneTestCase(unittest.TestCase):
         }
 
         first_movie = Movie(
-            title = "first movie",
-            release_date = '2020-01-01')
+            title="first movie",
+            release_date='2020-01-01')
 
         first_actor = Actor(
-            name = "first actor",
-            age =  32,
-            gender = "Male"
+            name="first actor",
+            age=32,
+            gender="Male"
         )
 
         first_movie.insert()
         first_actor.insert()
 
-        casting_assistant_token = "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6Imh3VXZlWTVFTl9ndExXNzV5dXNfeCJ9.eyJpc3MiOiJodHRwczovL2Rldi15OTZ5NWc3ci5ldS5hdXRoMC5jb20vIiwic3ViIjoiYXV0aDB8NWYzNmI4NjcxNzA0YWYwMDZkZGZkZDU5IiwiYXVkIjoibW92aWUiLCJpYXQiOjE1OTc0Mjk4NjcsImV4cCI6MTU5NzUxNjI2NywiYXpwIjoidlZ5Szk3M3pudHIybU5jU2drb1VjcWN4YXl1ZUZpR1oiLCJzY29wZSI6IiIsInBlcm1pc3Npb25zIjpbImdldDphY3RvcnMiLCJnZXQ6bW92aWVzIl19.ocbjr4CYpyhwGDhGI6GF3fl8C1ZAUK2gB3YjqD9Dqdxmedl9Cl-3SMPoSmt0qOu6O9OIOteSC0L1sjbWigq62pP_s902g5LPyT_3vp0knLg2ZdwKEfpCqljX5hDWmbB0wh6F10xarFxoagM06BXqLATq4HwcTgeG1P5PVc9uMMluy-U7PIP2a1YlzUuAY1mY-T85aFFnG_PMLAfP3Z1rmrwUF39FmeGaSvUo0b8zxTprng2qQ2WG56JkcyebNWtCKkT1jNNl81onyqD9wzXm1aW5hrLps8RDyTlRCZUGNPFIMAKw8miyhn5nlvMeYs3V9oDY301AYRTdJPToPZ5_5A"
-        casting_director_token = "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6Imh3VXZlWTVFTl9ndExXNzV5dXNfeCJ9.eyJpc3MiOiJodHRwczovL2Rldi15OTZ5NWc3ci5ldS5hdXRoMC5jb20vIiwic3ViIjoiYXV0aDB8NWYzNmI4ODcyOTkzM2MwMDY3M2JkMTIwIiwiYXVkIjoibW92aWUiLCJpYXQiOjE1OTc0Mjk4MjcsImV4cCI6MTU5NzUxNjIyNywiYXpwIjoidlZ5Szk3M3pudHIybU5jU2drb1VjcWN4YXl1ZUZpR1oiLCJzY29wZSI6IiIsInBlcm1pc3Npb25zIjpbImRlbGV0ZTphY3RvcnMiLCJnZXQ6YWN0b3JzIiwiZ2V0Om1vdmllcyIsInBhdGNoOmFjdG9ycyIsInBhdGNoOm1vdmllcyIsInBvc3Q6YWN0b3JzIl19.FGvcemKG66Af6F52FuwTrHtVx_MjcNTh4SiLkvQc4X8QOnLgX_SLUn05q9ceq-Vim9faLlWc5_DXJu-l34q9M1fAH8SEngq6UgfrN37lRAhPEvwK2RKpMYWppAHrr6SAc5UOpdFItQutckIuZw3TCxqebY3OG8vw8F6YSgXoivDTuQoWlgxpiylmUhjYz5z1U91Qtx-stzIEocOUAAywdtYix3kd3KD0vSlKpcqjt2YEG1idexFL61J_uJj9POdyCC5oacBNFOCp_hYOkYDbth8I--ud_33sp2NpaARdA3Gm1LDMK0SROb8cmT26qEKbMBYk24TC-wkNRfMRycLQkA"
-        executive_producer_token = "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6Imh3VXZlWTVFTl9ndExXNzV5dXNfeCJ9.eyJpc3MiOiJodHRwczovL2Rldi15OTZ5NWc3ci5ldS5hdXRoMC5jb20vIiwic3ViIjoiYXV0aDB8NWYzNmI4YTk0ZWU1MDMwMDZkNjc3NWJlIiwiYXVkIjoibW92aWUiLCJpYXQiOjE1OTc0Mjk2OTgsImV4cCI6MTU5NzUxNjA5OCwiYXpwIjoidlZ5Szk3M3pudHIybU5jU2drb1VjcWN4YXl1ZUZpR1oiLCJzY29wZSI6IiIsInBlcm1pc3Npb25zIjpbImRlbGV0ZTphY3RvcnMiLCJkZWxldGU6bW92aWVzIiwiZ2V0OmFjdG9ycyIsImdldDptb3ZpZXMiLCJwYXRjaDphY3RvcnMiLCJwYXRjaDptb3ZpZXMiLCJwb3N0OmFjdG9ycyIsInBvc3Q6bW92aWVzIl19.GRIeB6ynNSHqw-OKjpwnq9bDucXmGd8XQbcQ9gpq8GoC9WFDyYn07wqX6RVLoe4-SldQvpD3GoAni2aJRWf84dNU9WgmCGKIqieneitM31SjVWY9Oe0ocge10TrpkQ5im7oT14KWVskT_CUaMqVmttK7Cd4tl14UrvJvC-iVnRZ_ktZUa_I2hpCcQsuYaVj4lSLUjbi0I57xxgdJSrq9tD-zrmj9kmQZ4H18vZnYfHwOAXPnYh2OqwZDPx1tN7ip9drz_Nvibl-HV4ckvWVneuF71JSv7RXj-ObZGFheSKO8gR7YzyCkKLODW_pqHNWRqxyXfL0rfvrfPnKtnGZxEA"
-
-
-        self.casting_assistant_header = {
-            "Authorization": "Bearer " + casting_assistant_token
-            # "Authorization": "Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6Imh3VXZlWTVFTl9ndExXNzV5dXNfeCJ9.eyJpc3MiOiJodHRwczovL2Rldi15OTZ5NWc3ci5ldS5hdXRoMC5jb20vIiwic3ViIjoiYXV0aDB8NWYzNmI4NjcxNzA0YWYwMDZkZGZkZDU5IiwiYXVkIjoibW92aWUiLCJpYXQiOjE1OTc0Mjk4NjcsImV4cCI6MTU5NzUxNjI2NywiYXpwIjoidlZ5Szk3M3pudHIybU5jU2drb1VjcWN4YXl1ZUZpR1oiLCJzY29wZSI6IiIsInBlcm1pc3Npb25zIjpbImdldDphY3RvcnMiLCJnZXQ6bW92aWVzIl19.ocbjr4CYpyhwGDhGI6GF3fl8C1ZAUK2gB3YjqD9Dqdxmedl9Cl-3SMPoSmt0qOu6O9OIOteSC0L1sjbWigq62pP_s902g5LPyT_3vp0knLg2ZdwKEfpCqljX5hDWmbB0wh6F10xarFxoagM06BXqLATq4HwcTgeG1P5PVc9uMMluy-U7PIP2a1YlzUuAY1mY-T85aFFnG_PMLAfP3Z1rmrwUF39FmeGaSvUo0b8zxTprng2qQ2WG56JkcyebNWtCKkT1jNNl81onyqD9wzXm1aW5hrLps8RDyTlRCZUGNPFIMAKw8miyhn5nlvMeYs3V9oDY301AYRTdJPToPZ5_5A"
-
-        }
-        
-
-        self.casting_director_header = {
-            "Authorization": "Bearer " + casting_director_token
-        }
+        executive_producer_token = "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZ"\
+            "CI6Imh3VXZlWTVFTl9ndExXNzV5dXNfeCJ9.eyJpc3MiOiJodHRwczovL2Rldi15"\
+            "OTZ5NWc3ci5ldS5hdXRoMC5jb20vIiwic3ViIjoiYXV0aDB8NWYzNmI4YTk0ZWU1"\
+            "MDMwMDZkNjc3NWJlIiwiYXVkIjoibW92aWUiLCJpYXQiOjE1OTc1Mjk1MTQsImV4"\
+            "cCI6MTU5NzYxNTkxNCwiYXpwIjoidlZ5Szk3M3pudHIybU5jU2drb1VjcWN4YXl1"\
+            "ZUZpR1oiLCJzY29wZSI6IiIsInBlcm1pc3Npb25zIjpbImRlbGV0ZTphY3RvcnMi"\
+            "LCJkZWxldGU6bW92aWVzIiwiZ2V0OmFjdG9ycyIsImdldDptb3ZpZXMiLCJwYXRj"\
+            "aDphY3RvcnMiLCJwYXRjaDptb3ZpZXMiLCJwb3N0OmFjdG9ycyIsInBvc3Q6bW92"\
+            "aWVzIl19.oBdt6_0qM6spXDnuwIxMNjf7BFNxlcuatxgwaVwOfhxaSCxCF2GHWPO"\
+            "dKK2N0hSaQeGvryWbVA9A8i6ggf81u5fSDGy-B7_nxSJcRehO3DyQLVMQNdpcML4"\
+            "mPm9TnShRMmg0nbuy01B6Q5eczvS_gc4npzPVMzsLmJCOWXvIw51jWtn4kCu_1DV"\
+            "rRP1t53ZB1OpKJPV85sp-z7XM8mNfXqlbZmzaI0W2p11nnQqDPRYN64m6f8dE5PQ"\
+            "p1dvDHsCq2miPayCKaCkhoDcUcVYgTz9yiz_GK6GiA52Uk3sJ1-UOggU8tGHhUEj"\
+            "wdcstCG3v8ni_acij_Tar9wAVjKPeVQ"
 
         self.executive_producer_header = {
             "Authorization": "Bearer " + executive_producer_token
-            # "Authorization": "Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6Imh3VXZlWTVFTl9ndExXNzV5dXNfeCJ9.eyJpc3MiOiJodHRwczovL2Rldi15OTZ5NWc3ci5ldS5hdXRoMC5jb20vIiwic3ViIjoiYXV0aDB8NWYzNmI4YTk0ZWU1MDMwMDZkNjc3NWJlIiwiYXVkIjoibW92aWUiLCJpYXQiOjE1OTc0Mjk2OTgsImV4cCI6MTU5NzUxNjA5OCwiYXpwIjoidlZ5Szk3M3pudHIybU5jU2drb1VjcWN4YXl1ZUZpR1oiLCJzY29wZSI6IiIsInBlcm1pc3Npb25zIjpbImRlbGV0ZTphY3RvcnMiLCJkZWxldGU6bW92aWVzIiwiZ2V0OmFjdG9ycyIsImdldDptb3ZpZXMiLCJwYXRjaDphY3RvcnMiLCJwYXRjaDptb3ZpZXMiLCJwb3N0OmFjdG9ycyIsInBvc3Q6bW92aWVzIl19.GRIeB6ynNSHqw-OKjpwnq9bDucXmGd8XQbcQ9gpq8GoC9WFDyYn07wqX6RVLoe4-SldQvpD3GoAni2aJRWf84dNU9WgmCGKIqieneitM31SjVWY9Oe0ocge10TrpkQ5im7oT14KWVskT_CUaMqVmttK7Cd4tl14UrvJvC-iVnRZ_ktZUa_I2hpCcQsuYaVj4lSLUjbi0I57xxgdJSrq9tD-zrmj9kmQZ4H18vZnYfHwOAXPnYh2OqwZDPx1tN7ip9drz_Nvibl-HV4ckvWVneuF71JSv7RXj-ObZGFheSKO8gR7YzyCkKLODW_pqHNWRqxyXfL0rfvrfPnKtnGZxEA"
-
-
         }
 
     def tearDown(self):
         """Executed after reach test"""
         pass
 
-
     # GET endpoint tests
 
     def test_get_actors(self):
-        res = self.client().get('/actors', headers=self.executive_producer_header)
+        res = self.client().get('/actors',
+                                headers=self.executive_producer_header)
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 200)
@@ -103,7 +99,8 @@ class CapstoneTestCase(unittest.TestCase):
         self.assertTrue(data['actors'])
 
     def test_get_actors_with_invalid_endpoint(self):
-        res = self.client().get('/actors/2', headers=self.executive_producer_header)
+        res = self.client().get('/actors/2',
+                                headers=self.executive_producer_header)
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 405)
@@ -111,16 +108,18 @@ class CapstoneTestCase(unittest.TestCase):
         self.assertEqual(data['message'], 'Method Not Allowed')
 
     def test_get_movies(self):
-        res = self.client().get('/movies', headers=self.executive_producer_header)
+        res = self.client().get('/movies',
+                                headers=self.executive_producer_header)
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 200)
         self.assertEqual(data['success'], True)
         self.assertTrue(len(data['movies']))
         self.assertTrue(data['movies'])
-        
+
     def test_get_movies_with_invalid_endpoint(self):
-        res = self.client().get('/movies/2', headers=self.executive_producer_header)
+        res = self.client().get('/movies/2',
+                                headers=self.executive_producer_header)
 
         data = json.loads(res.data)
 
@@ -128,13 +127,13 @@ class CapstoneTestCase(unittest.TestCase):
         self.assertEqual(data['success'], False)
         self.assertEqual(data['message'], 'Method Not Allowed')
 
-
     # DELETE endpoint tests
 
     def test_delete_actor(self):
         self.new_actor.insert()
 
-        res = self.client().delete('/actors/25', headers=self.executive_producer_header)
+        res = self.client().delete('/actors/25',
+                                   headers=self.executive_producer_header)
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 200)
@@ -142,7 +141,8 @@ class CapstoneTestCase(unittest.TestCase):
         self.assertTrue(data["actor"])
 
     def test_delete_actor_that_does_not_exist(self):
-        res = self.client().delete('/actors/1000', headers=self.executive_producer_header)
+        res = self.client().delete('/actors/1000',
+                                   headers=self.executive_producer_header)
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 404)
@@ -152,7 +152,8 @@ class CapstoneTestCase(unittest.TestCase):
     def test_delete_movie(self):
         self.new_movie.insert()
 
-        res = self.client().delete('/movies/25', headers=self.executive_producer_header)
+        res = self.client().delete('/movies/25',
+                                   headers=self.executive_producer_header)
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 200)
@@ -160,7 +161,8 @@ class CapstoneTestCase(unittest.TestCase):
         self.assertTrue(data["movie"])
 
     def test_delete_movie_that_does_not_exist(self):
-        res = self.client().delete('/movies/1000', headers=self.executive_producer_header)
+        res = self.client().delete('/movies/1000',
+                                   headers=self.executive_producer_header)
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 404)
@@ -170,35 +172,37 @@ class CapstoneTestCase(unittest.TestCase):
     # POST endpoint tests
 
     def test_post_movie(self):
-        res = self.client().post('/movies', json=self.new_movie_json, headers=self.executive_producer_header)
+        res = self.client().post('/movies', json=self.new_movie_json,
+                                 headers=self.executive_producer_header)
         data = json.loads(res.data)
-        
+
         self.assertEqual(res.status_code, 200)
         self.assertEqual(data['success'], True)
         self.assertTrue(data["new_movie"])
 
-
     def test_405_if_post_movie_not_allowed(self):
-        res = self.client().post('/movies/1231', json=self.new_movie_json, headers=self.executive_producer_header)
+        res = self.client().post('/movies/1231', json=self.new_movie_json,
+                                 headers=self.executive_producer_header)
         data = json.loads(res.data)
-        
+
         self.assertEqual(res.status_code, 405)
         self.assertEqual(data['success'], False)
         self.assertTrue(data["message"], "Method Not Allowed")
 
-
     def test_post_actor(self):
-        res = self.client().post('/actors', json=self.new_actor_json, headers=self.executive_producer_header)
+        res = self.client().post('/actors', json=self.new_actor_json,
+                                 headers=self.executive_producer_header)
         data = json.loads(res.data)
-        
+
         self.assertEqual(res.status_code, 200)
         self.assertEqual(data['success'], True)
         self.assertTrue(data["new_actor"])
 
     def test_405_if_post_actor_not_allowed(self):
-        res = self.client().post('/actors/1231', json=self.new_actor_json, headers=self.executive_producer_header)
+        res = self.client().post('/actors/1231', json=self.new_actor_json,
+                                 headers=self.executive_producer_header)
         data = json.loads(res.data)
-        
+
         self.assertEqual(res.status_code, 405)
         self.assertEqual(data['success'], False)
         self.assertTrue(data["message"], "Method Not Allowed")
@@ -208,7 +212,8 @@ class CapstoneTestCase(unittest.TestCase):
     def test_patch_movie(self):
         self.new_movie.insert()
         patch_movie = {"title": "updated title"}
-        res = self.client().patch('/movies/25', json=patch_movie, headers=self.executive_producer_header)
+        res = self.client().patch('/movies/25', json=patch_movie,
+                                  headers=self.executive_producer_header)
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 200)
@@ -219,7 +224,8 @@ class CapstoneTestCase(unittest.TestCase):
     def test_405_if_patch_movie_not_allowed(self):
         self.new_movie.insert()
         patch_movie = {"title": "updated title"}
-        res = self.client().patch('/movies', json=patch_movie, headers=self.executive_producer_header)
+        res = self.client().patch('/movies', json=patch_movie,
+                                  headers=self.executive_producer_header)
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 405)
@@ -228,8 +234,9 @@ class CapstoneTestCase(unittest.TestCase):
 
     def test_patch_actor(self):
         self.new_actor.insert()
-        patch_actor = {"name":"bob"}
-        res = self.client().patch('/actors/25', json=patch_actor, headers=self.executive_producer_header)
+        patch_actor = {"name": "bob"}
+        res = self.client().patch('/actors/25', json=patch_actor,
+                                  headers=self.executive_producer_header)
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 200)
@@ -239,14 +246,15 @@ class CapstoneTestCase(unittest.TestCase):
 
     def test_405_if_patch_actor_without_id_not_allowed(self):
         self.new_actor.insert()
-        patch_actor = {"name":"bob"}
-        res = self.client().patch('/actors', json=patch_actor, headers=self.executive_producer_header)
+        patch_actor = {"name": "bob"}
+        res = self.client().patch('/actors', json=patch_actor,
+                                  headers=self.executive_producer_header)
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 405)
         self.assertEqual(data['success'], False)
         self.assertTrue(data["message"], "Method Not Allowed")
-    
+
 
 if __name__ == "__main__":
     unittest.main()

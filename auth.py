@@ -4,9 +4,6 @@ from functools import wraps
 from jose import jwt
 from urllib.request import urlopen
 
-
-
-#to change auth0 domain and api audience
 AUTH0_DOMAIN = 'dev-y96y5g7r.eu.auth0.com'
 ALGORITHMS = ['RS256']
 API_AUDIENCE = 'movie'
