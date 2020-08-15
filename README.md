@@ -2,14 +2,22 @@
 
 ## Motivation
 
-Final Project in the Udacity Full Stack Developer Nanodegree Program
+This is my Final Project in the Udacity Full Stack Developer Nanodegree Program
 
-This project combines all the skills learned for the course include:
+It combines all the skills learned from the course. 
+
+These Skills consist of:
+- SQL and Data Modelling of the Web 
+    - using SQLAlchemy to perform CRUD Operations and create relational database models
+- API Development and Documentation
+- Identity and Access Management
+    - Implementing Role Based Access Control with Auth0 and JWT Tokens 
+- Server Deployment by deploying the application to Heroku
 
 
 #### URL of Application
 
-This application is deployed to heroku at 
+This application is deployed to heroku at https://full-stack-developer-capstone.herokuapp.com/
 
 #### Instructions to set up authentication
 
@@ -53,8 +61,32 @@ pip install -r requirements.txt
 ## Running the Server Locally
 
 
-## Endpoints
 
+## API Documentation
+
+### Roles and Permission
+There are three different roles with the following permissions
+- Casting Assistant
+    - get:movies
+    - get:actors
+- Casting Director
+    - get:movies
+    - get:actors
+    - post:actors
+    - delete:actors
+    - patch:actors
+    - patch:movies
+- Executive Producer
+    - get:movies
+    - get:actors
+    - post:actors
+    - post:movies 
+    - delete:actors
+    - delete:movies
+    - patch:actors
+    - patch:movies
+
+### Endpoints
 
 #### GET '/movies'
 - General:
@@ -62,27 +94,237 @@ pip install -r requirements.txt
     - Request Arguments: None
     - Returns: a list of formatted movie objects and the success value
 - Authentication:
-- Sample: curl http://localhost:5000/movies
-
-```
-{
-    "movies": [
-        {
-            "id": 1,
-            "release_date": "Wed, 01 Jan 2020 00:00:00 GMT",
-            "title": "test"
-        }
-    ],
-    "success": true
-}
-```
+    - Requires a valid Bearer JWT Token included include in Authorization Header
+- Sample Request: 
+    ```
+    curl http://localhost:5000/movies \
+    -H "Authorization: Bearer {insert valid jwt token}"
+    ```
+- Sample Response:   
+    ```
+    {
+        "movies": [
+            {
+                "id": 1,
+                "release_date": "Wed, 01 Jan 2020 00:00:00 GMT",
+                "title": "test"
+            }
+        ],
+        "success": true
+    }
+    ```
 #### GET '/actors'
 - General:
-    - Fetches a list of all actors in database
+    - Description: Fetches a list of all actors in database
     - Request Arguments: None
-    - Returns: a list of formatted actor objects and the success value
-- Sample: 
+    - Returns: 
+        - a list of formatted actor objects 
+        - success value
+- Authentication:
+    - Requires a valid Bearer JWT Token included include in Authorization Header
+- Sample Request: 
+    ```
+    curl http://localhost:5000/actors \
+    -H "Authorization: Bearer {insert valid jwt token}"
+    ```
+- Sample Response:
+    ```
+    {
+        "actors": [
+            {
+                "age": 32,
+                "gender": "Male",
+                "id": 1,
+                "name": "first actor"
+            }
+        ],
+        "success": true
+    }
+
+    ```
+
+#### POST '/movies'
+- General:
+    - Description: a new movie is created
+    - Request Arguments: None
+    - Returns: 
+        - created movie 
+        - success value
+- Authentication:
+    - Requires a valid Bearer JWT Token included include in Authorization Header
+- Sample Request:
+    ```
+    curl http://localhost:5000/movies -X POST \
+    -H "Content-Type: application/json" \
+    -H "Authorization: Bearer {insert valid jwt token}" \
+    -d '{"title":"Movie title name", "release_date": "2019-01-01"}'
+    ``` 
+- Sample Response:
+    ```
+        {
+            "new_movie":
+            {
+                "id":13,
+                "release_date":"Tue, 01 Jan 2019 00:00:00 GMT",
+                "title":"Movie title name"
+            },
+            "success":true
+        }
+    ```
+
+#### POST '/actors'
+- General:
+    - Description: a new actor is created
+    - Request Arguments: None
+    - Returns: 
+        - created actor
+        - success value
+- Authentication:
+    - Requires a valid Bearer JWT Token included include in Authorization Header
+- Sample Request:
+    ```
+    curl http://localhost:5000/actors -X POST \
+    -H "Content-Type: application/json" \
+    -H "Authorization: Bearer {insert valid jwt token}" \
+    -d '{
+            "name": "actor name",
+            "age": 32,
+            "gender": "Female"
+        }'
+    ``` 
+- Sample Response
+    ```
+    {
+        "new_actor":
+            {
+                "age":32,
+                "gender":"Female",
+                "id":20,
+                "name":"actor name"
+            },
+        "success":true
+    }
+    ```
+
+#### DELETE '/movies/{movie_id}'
+- General:
+    - Description: Deletes the movie specifed 
+    - Request Arguments: 
+        - movie_id - the id of the movie to be delete
+    - Returns 
+        - deleted movie 
+        - success value
+- Authentication:
+    - Requires a valid Bearer JWT Token included include in Authorization Header
+- Sample Request:
+    ```
+    curl http://localhost:5000/movies/13 -X DELETE \
+    -H "Content-Type: application/json" \
+    -H "Authorization: Bearer {insert valid jwt token}"
+    ```
+- Sample Response:
+    ```
+         {
+            "new_movie":
+            {
+                "id":13,
+                "release_date":"Tue, 01 Jan 2019 00:00:00 GMT",
+                "title":"Movie title name"
+            },
+            "success":true
+        }
+    ```
+#### DELETE '/actors/{actor_id}'
+- General:
+    - Description: Deletes the actor specifed 
+    - Request Arguments: 
+        - actor_id - the id of the actor to be delete
+    - Returns 
+        - deleted actor 
+        - success value
+- Authentication:
+    - Requires a valid Bearer JWT Token included include in Authorization Header
 
 
+- Sample Request: 
+    ```
+    curl http://localhost:5000/actors/20 -X DELETE \
+    -H "Content-Type: application/json" \
+    -H "Authorization: Bearer {insert valid jwt token}"
+    ```
+- Sample Response:
+    ```
+    {
+        "new_actor":
+            {
+                "age":32,
+                "gender":"Female",
+                "id":20,
+                "name":"actor name"
+            },
+        "success":true
+    }
+    ```
 
+#### PATCH '/movies/{movie_id}'
+- General:
+    - Description: Updates the specified movie's details which are included in the body of the request
+    - Request Arguments: 
+        - movie_id - the id of the movie to be updated
+    - Returns:
+        - updated movie
+        - success value
+- Authentication:
+    - Requires a valid Bearer JWT Token included include in Authorization Header
+- Sample Request:
+    ```
+    curl http://localhost:5000/movies/12 -X PATCH \
+    -H "Content-Type: application/json" \
+    -H "Authorization: Bearer {insert valid jwt token}" \
+    -d '{"title": "updated title"}'
+    ```
+- Sample Response:
+    ```
+    {
+        "movie":
+        {
+            "id":12,
+            "release_date":"Wed, 01 Jan 2020 00:00:00 GMT",
+            "title":"updated title"
+        },
+        "success":true
+        }
 
+    ```
+
+#### PATCH '/actors/{actor_id}'
+- General:
+    - Description: Updates the specified actor's details which are included in the body of the request
+    - Request Arguments: 
+        - actor_id - the id of the actor to be updated
+    - Returns: 
+        - updated actor 
+        - success value
+- Authentication:
+    - Requires a valid Bearer JWT Token included include in Authorization Header
+- Sample Request:
+   ```
+    curl http://localhost:5000/actors/11 \
+    -X PATCH \
+    -H "Content-Type: application/json" \
+    -H "Authorization: Bearer {insert valid jwt token}" \
+    -d '{"name": "updated name"}'
+    ```
+- Sample Response:
+    ```
+    {
+        "actor":
+        {
+            "age":32,
+            "gender":"Female",
+            "id":11,
+            "name":"updated name"
+        },
+        "success":true
+    }
+    ```

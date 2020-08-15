@@ -24,7 +24,6 @@ def create_app(test_config=None):
             'GET,PUT,POST,PATCH,DELETE,OPTIONS')
         return response
 
-
     @app.route('/')
     def get_home():
         return jsonify("Welcome to my capstone project")
