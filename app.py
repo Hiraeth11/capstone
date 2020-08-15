@@ -25,6 +25,13 @@ def create_app(test_config=None):
         return response
 
 
+    @app.route('/')
+    def get_home():
+
+        return jsonify({
+            "Welcome to my capstone project"
+        })
+
     @app.route('/actors')
     @requires_auth('get:actors')
     def get_actors(payload):
