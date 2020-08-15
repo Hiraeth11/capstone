@@ -8,8 +8,9 @@ It combines all the skills learned from the course.
 
 These Skills consist of:
 - SQL and Data Modelling of the Web 
-    - using SQLAlchemy to perform CRUD Operations and create relational database models
+    - using SQLAlchemy to perform CRUD Operations and create relational databases
 - API Development and Documentation
+    - creating RESTful APIs, writing API documentation and performing TDD with unit tests and postman collections
 - Identity and Access Management
     - Implementing Role Based Access Control with Auth0 and JWT Tokens 
 - Server Deployment
